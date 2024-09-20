@@ -93,6 +93,38 @@ export class Player {
                     }
                 }
 
+
+                // Calculate the expected position based on the progress
+                const expectedX = currentCenter.x + this.progress * (targetCenter.x - currentCenter.x);
+                const expectedY = currentCenter.y + this.progress * (targetCenter.y - currentCenter.y);
+
+                // Apply correction if the player's position deviates from the expected position
+                const distanceX = Math.abs(this.shape.x - expectedX);
+                const distanceY = Math.abs(this.shape.y - expectedY);
+
+                if (distanceX > 0) {
+                    this.shape.x = expectedX;
+                }
+                
+                if (distanceY > 0) {
+                    this.shape.y = expectedY;
+                }
+
+                // // Apply a correction to both x and y positions for diagonal movement
+                // if (Math.abs(this.shape.dx) > 0 && Math.abs(this.shape.dy) > 0) {
+                //     console.log('Diagonal movement');
+                //     const distanceY = Math.abs(this.shape.y - currentCenter.y);
+                //     const distanceX = Math.abs(this.shape.x - currentCenter.x);
+                //     // if (distanceY > 0) {
+                //     //     // Apply correction to y position
+                //     //     this.shape.y = currentCenter.y;
+                //     // }
+                //     // if (distanceX > 0) {
+                //     //     // Apply correction to x position
+                //     //     this.shape.x = currentCenter.x;
+                //     // }
+                // }
+
                 // Check if the circle has reached the target cell center
                 if ( this.progress >= 1) {
                     this.currentPathIndex++; // Increment the path index

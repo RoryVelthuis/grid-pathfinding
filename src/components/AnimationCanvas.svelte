@@ -12,20 +12,14 @@
     let ctx;
     let mousePosition = { x: 0, y: 0 };
     let currentCell = { x: 0, y: 0 };
-    // let currentPathIndex = 0;
-    // let progress = 0;
 
-
-    //let path = new Path();
-
-    const grid = new Grid(15, 15, 50, 50);
+    const grid = new Grid(20, 20, 40, 40);
 
     // Create player object
-    const circle = new Circle(25, 25, 20, 'red');
+    const circle = new Circle(60, 60, 15, 'red');
 
     // Create player object
     const player = new Player(grid, circle);
-
 
     // Animation loop
     function animate() {
@@ -37,7 +31,7 @@
     }
 
     function update() {
-        // Update state as needed
+        // Update state
         player.update();
     }
 
@@ -53,15 +47,12 @@
         player.shape.draw(ctx);
     }
 
-
     function handleMouseMove(event) {
         mousePosition = getMousePosition(canvas, event);
         currentCell = grid.getCell(mousePosition.x, mousePosition.y);
     }
 
-
     function handleMouseClick(event) {
-
         // Get mouse position and calculate cell reference
         const clickPosition = getMousePosition(canvas, event);
         const clickedCell = grid.getCell(clickPosition.x, clickPosition.y);
@@ -105,7 +96,6 @@
     <div class="grid-info infobox">
         <p>Mouse position: {mousePosition.x}, {mousePosition.y}</p>
         <p>Current cell: {currentCell.row}, {currentCell.col}</p>
-
     </div>
     <div class="circle-info infobox">
         {#if $playerStore}

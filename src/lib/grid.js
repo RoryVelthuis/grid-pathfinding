@@ -4,6 +4,7 @@ export class Grid {
         this.rows = rows;
         this.cols = cols;
         this.cellSize = cellSize;
+        this.closedSet = [];
     }
 
     draw(ctx) {
@@ -36,11 +37,21 @@ export class Grid {
     }
 
     getNeighbors(row, col) {
-        const neighbors = [];
-        if (row > 0) neighbors.push({ row: row - 1, col });
-        if (row < this.rows - 1) neighbors.push({ row: row + 1, col });
-        if (col > 0) neighbors.push({ row, col: col - 1 });
-        if (col < this.cols - 1) neighbors.push({ row, col: col + 1 });
-        return neighbors;
+        return [
+            { row: row - 1, col },     // Up
+            { row: row + 1, col },     // Down
+            { row, col: col - 1 },     // Left
+            { row, col: col + 1 },     // Right
+            { row: row - 1, col: col - 1 },  // Diagonal top-left
+            { row: row - 1, col: col + 1 },  // Diagonal top-right
+            { row: row + 1, col: col - 1 },  // Diagonal bottom-left
+            { row: row + 1, col: col + 1 },  // Diagonal bottom-right
+        ];
+        // const neighbors = [];
+        // if (row > 0) neighbors.push({ row: row - 1, col });
+        // if (row < this.rows - 1) neighbors.push({ row: row + 1, col });
+        // if (col > 0) neighbors.push({ row, col: col - 1 });
+        // if (col < this.cols - 1) neighbors.push({ row, col: col + 1 });
+        // return neighbors;
     }
 }
