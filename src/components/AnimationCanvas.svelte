@@ -39,12 +39,10 @@
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw grid
-        grid.draw(ctx);
-        // Draw path
-        player.path.draw(ctx, grid);
-        //Draw circle
-        player.shape.draw(ctx);
+        grid.draw(ctx); // Draw grid
+        player.path.draw(ctx, grid); // Draw path
+        player.shape.draw(ctx); //Draw circle
+
     }
 
     function handleMouseMove(event) {
