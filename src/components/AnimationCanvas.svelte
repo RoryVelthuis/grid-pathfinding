@@ -99,7 +99,7 @@
         {#if $playerStore}
             <p>Circle position: {$playerStore.shape.x}, {$playerStore.shape.y}</p>
             <p>Circle movement: {$playerStore.shape.dx}, {$playerStore.shape.dy}</p>
-            <p>Path length: {player.path.points.length}</p>
+            <p>Path length: {$playerStore.path.length}</p>
             <p>Current path index: { $playerStore.currentPathIndex}</p>
             <p>Cell travel progress: {$playerStore.progress}</p>
         {/if}

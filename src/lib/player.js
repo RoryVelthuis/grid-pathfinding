@@ -34,13 +34,19 @@ export class Player {
         console.log('Finding path');
         // Find path using A* algorithm
         const startCell = this.grid.getCell(this.shape.x, this.shape.y);
-        console.log(startCell);
 
+        // Check if the start and target cells are the same
+        if(startCell.row === targetCell.row && startCell.col === targetCell.col) {
+            console.log('Start and target cells are the same');
+            return;
+        }
+
+        // Find the path using A* algorithm
         const points = astar(this.grid, startCell, targetCell);
-        console.log(points);
 
+        // Set the path
         this.path = new Path(points);
-        console.log(this.path);
+        console.log(this.path.points);
     }
 
     update() {
