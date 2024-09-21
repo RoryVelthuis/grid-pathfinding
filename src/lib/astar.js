@@ -6,8 +6,29 @@ function heuristic(a, b) {
     return Math.abs(a.row - b.row) + Math.abs(a.col - b.col);
 }
 
+function octileDistance(a, b) {
+    const dx = Math.abs(a.row - b.row);
+    const dy = Math.abs(a.col - b.col);
+    const F = Math.sqrt(2) - 1;  // Factor for diagonal movement (sqrt(2) - 1)
+    return (dx < dy) ? F * dx + dy : F * dy + dx;
+}
+
 export function astar(grid, start, end) {
-    const openSet = new FastPriorityQueue((a, b) => a.f < b.f); // Min-heap based on f-cost
+
+    // Initialize the open set as a priority queue
+    // The priority queue is a min-heap by default, so we need to modify the comparison function
+    // The comparion function is used to determine the priority of elements in the queue
+    // Modify the comparison function to break ties by both h (primary) and g (secondary)
+    const openSet = new FastPriorityQueue((a, b) => {
+        if (a.f === b.f) {
+            // Primary tie-breaking: prefer higher h (closer to the goal)
+            if (a.h !== b.h) return a.h > b.h;
+            // Secondary tie-breaking: prefer higher g (farther from the start)
+            return a.g > b.g;
+        }
+        return a.f < b.f;  // Default to comparing f-cost
+    });
+
     const closedSet = new Set(grid.closedSet.map(cell => `${cell.row},${cell.col}`)); // Initialize with grid's closedSet
     
     const startNode = new Node(start.row, start.col);
@@ -59,7 +80,7 @@ export function astar(grid, start, end) {
             let neighborNode = openSet.array.find(node => node.row === neighbor.row && node.col === neighbor.col);
             if (!neighborNode) {
                 // If not in the open set, create a new node and add it
-                neighborNode = new Node(neighbor.row, neighbor.col, gScore, heuristic(neighbor, endNode), currentNode);
+                neighborNode = new Node(neighbor.row, neighbor.col, gScore, octileDistance(neighbor, endNode), currentNode);
                 openSet.add(neighborNode);
             } else if (gScore < neighborNode.g) {
                 // If it's already in the open set, but we found a better path, update it
