@@ -62,6 +62,12 @@
             return;
         }
 
+        // Check if the clicked cell is a closed cell
+        if (grid.isClosedCell(clickedCell.row, clickedCell.col)) {
+            console.log('Clicked on a closed cell');
+            return;
+        }
+
         player.PathTo(clickedCell);
     }
 

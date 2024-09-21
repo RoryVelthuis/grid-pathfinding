@@ -8,7 +8,7 @@ function heuristic(a, b) {
 
 export function astar(grid, start, end) {
     const openSet = new FastPriorityQueue((a, b) => a.f < b.f); // Min-heap based on f-cost
-    const closedSet = new Set();
+    const closedSet = new Set(grid.closedSet.map(cell => `${cell.row},${cell.col}`)); // Initialize with grid's closedSet
     
     const startNode = new Node(start.row, start.col);
     const endNode = new Node(end.row, end.col);
@@ -57,7 +57,8 @@ export function astar(grid, start, end) {
                 neighborNode.g = gScore;
                 neighborNode.f = gScore + neighborNode.h;
                 neighborNode.parent = currentNode;
-                openSet.heapify(); // Reorder the priority queue after updating the node
+                openSet.remove(neighborNode); // Remove the old node
+                openSet.add(neighborNode); // Re-add the updated node
             }
         }
     }

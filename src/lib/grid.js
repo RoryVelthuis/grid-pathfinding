@@ -4,7 +4,10 @@ export class Grid {
         this.rows = rows;
         this.cols = cols;
         this.cellSize = cellSize;
-        this.closedSet = [];
+        this.closedSet = [ 
+                            { row: 4, col: 6 }, { row: 4, col: 7 }, { row: 4, col: 8 }, { row: 4, col: 8 },
+                            { row: 5, col: 6 }, { row: 6, col: 6 }, { row: 7, col: 6 }, { row: 8, col: 6 },
+                         ];
     }
 
     draw(ctx) {
@@ -22,6 +25,17 @@ export class Grid {
         ctx.strokeStyle = 'black';
         ctx.stroke();
         ctx.closePath();
+
+        ctx.fillStyle = 'black';
+        this.closedSet.forEach(cell => {
+            const x = cell.col * this.cellSize;
+            const y = cell.row * this.cellSize;
+            ctx.fillRect(x, y, this.cellSize, this.cellSize);
+        });
+    }
+
+    isClosedCell(row, col) {
+        return this.closedSet.some(cell => cell.row === row && cell.col === col);
     }
 
     getCell(x, y) {
