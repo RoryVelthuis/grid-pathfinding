@@ -41,8 +41,17 @@ export function astar(grid, start, end) {
             // If the neighbor is in the closed set, skip it
             if (closedSet.has(neighborKey)) continue;
 
-            // Calculate the gScore for this neighbor
+            // Check for diagonal movement and prevent corner cutting
             const isDiagonal = Math.abs(neighbor.row - currentNode.row) === 1 && Math.abs(neighbor.col - currentNode.col) === 1;
+            if (isDiagonal) {
+                const horizontalNeighbor = { row: currentNode.row, col: neighbor.col };
+                const verticalNeighbor = { row: neighbor.row, col: currentNode.col };
+                if (closedSet.has(`${horizontalNeighbor.row},${horizontalNeighbor.col}`) || closedSet.has(`${verticalNeighbor.row},${verticalNeighbor.col}`)) {
+                    continue;
+                }
+            }
+
+            // Calculate the g-cost and f-cost of the neighbor
             const moveCost = isDiagonal ? 1.4 : 1;  // 1.4 for diagonal, 1 for straight
             const gScore = currentNode.g + moveCost;
 

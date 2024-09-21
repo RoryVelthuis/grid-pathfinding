@@ -7,6 +7,9 @@ export class Grid {
         this.closedSet = [ 
                             { row: 4, col: 6 }, { row: 4, col: 7 }, { row: 4, col: 8 }, { row: 4, col: 8 },
                             { row: 5, col: 6 }, { row: 6, col: 6 }, { row: 7, col: 6 }, { row: 8, col: 6 },
+
+                            { row: 10, col: 10 }, { row: 10, col: 11 }, { row: 10, col: 12 }, { row: 10, col: 13 },
+                            { row: 11, col: 13 }, { row: 12, col: 13 }, { row: 13, col: 13 }, { row: 14, col: 13 },
                          ];
     }
 
