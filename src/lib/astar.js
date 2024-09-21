@@ -13,11 +13,36 @@ function octileDistance(a, b) {
     return (dx < dy) ? F * dx + dy : F * dy + dx;
 }
 
+// The A* algorithm is used to find the shortest path between two points on a grid.
+// It calculates and follows the path with the lowest cost (f = g + h).
+// The f cost represents the total cost of the path from the start node to the end node.
+// The g cost represents the cost of the path from the start node to the current node.
+// The h cost represents the heuristic (estimated) cost from the current node to the end node.
+// The algorithm uses a priority queue to explore the nodes with the lowest f cost first.
+// It also uses a closed set to keep track of the nodes that have been visited.
+// The algorithm terminates when the end node is reached or when the open set is empty.
+// If the open set is empty, there is no path from the start to the end node.
+// The algorithm returns the path from the start to the end node if it exists.
+// The path is reconstructed by following the parent nodes from the end node to the start node.
+// The algorithm uses a heuristic function to estimate the cost of reaching the end node.
+
+// The A* algorithm takes the following parameters:
+// - grid: the grid object containing the map and obstacles.
+// - start: the start node with row and column coordinates.
+// - end: the end node with row and column coordinates.
+
+// The grid object should have the following methods:
+// - getNeighbors(row, col): returns an array of neighboring nodes.
+// - isClosedCell(row, col): checks if the cell is in the closed set.
+// - getCell(x, y): returns the row and column of the cell at the given coordinates.
+// - getCellCenter(row, col): returns the center coordinates of the cell.
+
+
 export function astar(grid, start, end) {
 
     // Initialize the open set as a priority queue
     // The priority queue is a min-heap by default, so we need to modify the comparison function
-    // The comparion function is used to determine the priority of elements in the queue
+    // The comparison function is used to determine the priority of elements in the queue
     // Modify the comparison function to break ties by both h (primary) and g (secondary)
     const openSet = new FastPriorityQueue((a, b) => {
         if (a.f === b.f) {
@@ -29,15 +54,20 @@ export function astar(grid, start, end) {
         return a.f < b.f;  // Default to comparing f-cost
     });
 
-    const closedSet = new Set(grid.closedSet.map(cell => `${cell.row},${cell.col}`)); // Initialize with grid's closedSet
-    
+    // Initialize the closed set with the grid's closedSet
+    const closedSet = new Set(grid.closedSet.map(cell => `${cell.row},${cell.col}`));
+
+    // Create start and end nodes
     const startNode = new Node(start.row, start.col);
     const endNode = new Node(end.row, end.col);
 
-    openSet.add(startNode); // Insert the start node into the priority queue
+    // Insert the start node into the priority queue
+    openSet.add(startNode);
 
+    // Main loop: continue until there are no more nodes to explore
     while (!openSet.isEmpty()) {
-        let currentNode = openSet.poll(); // Get the node with the lowest f-cost
+        // Get the node with the lowest f-cost
+        let currentNode = openSet.poll();
 
         // If we reached the end node, reconstruct the path
         if (currentNode.row === endNode.row && currentNode.col === endNode.col) {
@@ -58,7 +88,7 @@ export function astar(grid, start, end) {
 
         for (let neighbor of neighbors) {
             const neighborKey = `${neighbor.row},${neighbor.col}`;
-            
+
             // If the neighbor is in the closed set, skip it
             if (closedSet.has(neighborKey)) continue;
 
